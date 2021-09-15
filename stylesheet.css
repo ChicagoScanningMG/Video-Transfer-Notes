@@ -31,7 +31,7 @@ main{
 
 h3 {
 
-  font-size: 1em;
+  font-size: 0.8em;
 
 }
 
@@ -43,6 +43,34 @@ input {
 
   border-radius: 5px;
   border-style: none;
+  /* margin: 5px; */
+
+}
+
+button {
+
+  border-radius: 100px;
+  border-style: none;
+  /* margin: 5px; */
+
+}
+
+label {
+
+    text-align: right;
+    font-size: 0.8em;
+
+}
+
+.row {
+
+  margin: 5px;
+
+}
+
+.video-notes-field {
+
+  font-size: .8em;
 
 }
 
@@ -97,4 +125,9 @@ textarea {
 
 .single-line-text{
   margin: 5px;
+}
+
+.move-left {
+    width: auto;
+    box-shadow: none;
 }
