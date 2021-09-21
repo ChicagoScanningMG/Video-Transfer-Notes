@@ -104,7 +104,6 @@ function logTape(e){
       })
       .catch(error => {
           spinner.hide();
-          document.getElementById('submitForm').classList.remove('loading');
           Swal.fire("Something went wrong!", "Review Footage Log and/or contact Admin", "error");
           // todo enable submit button
 
