@@ -86,8 +86,8 @@
         </div>
 
         <div class="row">
-          <label for="stop-time" class="col-3">Video Stopped:</label>
-          <input type="timecode" id="stop-time" name="stop-time" class="col-9 resetAble" value="" placeholder="XX:XX:XX" autocomplete="off">
+          <label for="initials" class="col-3">Tech Initials:</label>
+          <input type="text" id="initials" name="initials" class="col-9" placeholder="CS" required autocomplete="off" style="max-width: 50px">
         </div>
 
         <div class="row">
@@ -96,8 +96,16 @@
         </div>
 
         <div class="row">
+          <label for="stop-time" class="col-3">Video Stopped:</label>
+          <input type="timecode" id="stop-time" name="stop-time" class="col-9 resetAble" value="" placeholder="XX:XX:XX" autocomplete="off">
+        </div>
+
+        <div class="row">
           <label for="needs-review" class="col-3">Needs Review?:</label>
           <input type="checkbox" id="needs-review" name="needs-review" class="col-1 resetAble move-left" autocomplete="off">
+          
+          <label for="notes-only" class="col-3">Log Notes Only:</label>
+          <input type="checkbox" id="notes-only" name="notes-only" class="col-1 resetAble move-left" autocomplete="off">
         </div>
 
         <div class="row">
@@ -110,11 +118,6 @@
             <option value="Long Tape">Long</option>
             <option value="Check Notes">Check Notes</option>
           </select>
-        </div>
-
-        <div class="row">
-          <label for="initials" class="col-3">Tech Initials:</label>
-          <input type="text" id="initials" name="initials" class="col-9" placeholder="CS" required autocomplete="off" style="max-width: 50px">
         </div>
 
         <div class="row">
@@ -141,6 +144,11 @@
   function timecodeMask() {
     var num = $(this).val().replace(/\D/g,'');
     $(this).val(num.substring(0,2) + ':' + num.substring(2,4) + ':' + num.substring(4,6));
+    if ($("#stop-time").val() == "::"){
+
+      $("#stop-time").val("");
+
+    }
   }
   $('[type="timecode"]').keyup(timecodeMask);
 
