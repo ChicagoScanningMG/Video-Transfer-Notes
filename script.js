@@ -1,5 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbzuHgKLmcypyfGmtdYtQqJn3yNzBm-65uWgfih1YjaUc019vBcrG0kqqjCgbO28fmoo/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbzpkY2xyES0EpG_lWCa8AXWiIsWIYOWUGfB1e6re81KZ7xnhIdMog7DpOVAJzz1ME3Y/exec';
 // const scriptURLC ='turd';
 const serverlessForm = document.forms['serverless-form'];
 
@@ -91,6 +91,7 @@ function logTape(e){
               $('#qc-notes').val("");
               $("#billing-notes").val("").change();
               $('#needs-review').prop('checked', false);
+              $('#notes-only').prop('checked', false);
 
               return true;
 
