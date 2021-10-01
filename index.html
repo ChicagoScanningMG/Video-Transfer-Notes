@@ -92,7 +92,10 @@
 
         <div class="row">
           <label for="qc-notes" class="col-3">QC Notes:</label>
-          <textarea name="qc-notes" id="qc-notes" class="video-notes-field col-9 resetAble" rows="10" cols="30" value="" autocomplete="off"></textarea>
+          <div class="col-9" style="padding: 0">
+            <p id="existing-qc-notes" class="pulled-detail"></p>
+            <textarea name="qc-notes" id="qc-notes" class="video-notes-field col-9 resetAble" rows="10" cols="30" value="" autocomplete="off"></textarea>
+          </div>
         </div>
 
         <div class="row">
@@ -103,7 +106,7 @@
         <div class="row">
           <label for="needs-review" class="col-3">Needs Review?:</label>
           <input type="checkbox" id="needs-review" name="needs-review" class="col-1 resetAble move-left" autocomplete="off">
-          
+
           <label for="notes-only" class="col-3">Log Notes Only:</label>
           <input type="checkbox" id="notes-only" name="notes-only" class="col-1 resetAble move-left" autocomplete="off">
         </div>
@@ -128,6 +131,11 @@
         <div class="row">
           <span class="col-3"></span>
           <input type="button" id="reset-btn" value="Reset" class="col-2">
+        </div>
+
+        <div class="row">
+          <span class="col-3"></span>
+          <p id="order-notes" class="pulled-detail col-9" style="padding: 0"></p>
         </div>
 
       </form>
