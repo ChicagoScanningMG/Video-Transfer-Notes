@@ -28,6 +28,7 @@ $("#order-id").change(function(){
 
 $('#order-id').change(function(){
   $('#order-notes').html("Retrieving Order Notes");
+  $('#last-name').val("");
   $('#last-name').attr("placeholder", "Retrieving Customer Name");
   getOrderDetails($('#order-id').val(), $('#tape-num').val());
 })
