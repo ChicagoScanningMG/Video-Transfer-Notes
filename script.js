@@ -1,5 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbw8vmnJGMA1KxM0dS6cgPDsipCjRTT5qhLoNLm1kWePd67oAVeC5XDHRpWL2rcc6mdO/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbwOfIsJmBwuIP4LF633tpTgrR7GJD9M8b4NN0EZ7fmSueHKXXcr0gMgeCnNzW7n7GFv/exec';
 // const scriptURLC ='turd';
 const serverlessForm = document.forms['serverless-form'];
 
@@ -166,7 +166,21 @@ function getOrderDetails(orderID, tapeNum){
     }).then(response => response.json())
     .then(data => {
 
-      $("#existing-qc-notes").html(data.tapeNotes);
+      var splitNotes = data.tapeNotes.split("\n\n");
+      console.log(splitNotes);
+      var formattedNotes = "";
+
+      if (splitNotes.length > 1){
+
+        splitNotes.forEach(line => formattedNotes = formattedNotes + line + "<br/>");
+
+      } else {
+
+        formattedNotes = data.tapeNotes;
+
+      }
+
+      $("#existing-qc-notes").html(formattedNotes);
       $("#order-notes").html(data.orderNotes);
       $("#last-name").val(data.customerName);
 
