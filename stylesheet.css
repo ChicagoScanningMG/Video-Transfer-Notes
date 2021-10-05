@@ -82,9 +82,14 @@ textarea {
 }
 
 .pulled-detail{
-  
+
   margin: 0;
 
+}
+
+#version-num{
+  position: fixed;
+  bottom: 0%;
 }
 
 
