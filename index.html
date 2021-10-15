@@ -22,6 +22,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5.0.4/dark.min.css">
+<script src="JQColor.js"></script>
 
 
 
@@ -57,6 +58,8 @@
 
     <!-- Custom styles for this template -->
     <link href="stylesheet.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
 
   </head>
 
@@ -100,7 +103,11 @@
 
         <div class="row">
           <label for="stop-time" class="col-3">Video Stopped:</label>
-          <input type="timecode" id="stop-time" name="stop-time" class="col-9 resetAble" value="" placeholder="XX:XX:XX" autocomplete="off">
+          <!-- <input type="timecode" id="stop-time" name="stop-time" class="col-9 resetAble" value="" placeholder="XX:XX:XX" autocomplete="off"> -->
+          <input type="button" id="stop-timer-button" value="Stop Timer" class="col-3">
+          <div class="col-9" id="stop-timer-div" style="display: none">
+            <h1 class="" id="stop-timer">10:00</h1><input type="button" class="timer-button fa fa-input" id="stop-button" value="&#xf28d;"><input type="button" class="timer-button fa fa-input" id="restart-button" value="&#xf1da;">
+        </div>
         </div>
 
         <div class="row">
@@ -141,7 +148,7 @@
       </form>
 
       <div class="row" id="version-num">
-        <p>v2.0.2</p>
+        <p>v2.1.0</p>
       </div>
 
     </div>
