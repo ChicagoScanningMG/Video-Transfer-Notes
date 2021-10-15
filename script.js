@@ -24,7 +24,7 @@ $("#restart-button").click(function(){
     runTimer();
 
   }
-  bgAnimate = false;
+  $("body").css({"animation-name":"", "animation-duration":"", "animation-iteration-count":""})
 
 })
 
@@ -38,7 +38,8 @@ function resetTimer(){
 
   timerOn = false;
   bgAnimate = false;
-  $("#stop-timer-button").css("display", "inherit");
+  $("body").css({"animation-name":"", "animation-duration":"", "animation-iteration-count":""})
+  $("#stop-timer-button").css("display", "");
   $("#stop-timer-div").css("display", "none");
   $("body").css("background-color", "black");
   // clearInterval(timer);
@@ -91,18 +92,20 @@ function runTimer(){
       timerOn = false;
       bgAnimate = true;
 
-      var flashRed = setInterval(function(){
+      // var flashRed = setInterval(function(){
+      //
+      //   if (bgAnimate == false){
+      //     clearInterval(flashRed);
+      //     return;
+      //   }
+      //
+      //   $("body").animate({"background-color": "rgb(235, 0, 0)"}, 400)
+      //     .delay(400)
+      //     .animate({"background-color": "black"}, 400);
+      //
+      // }, 1600);
 
-        if (bgAnimate == false){
-          clearInterval(flashRed);
-          return;
-        }
-
-        $("body").animate({"background-color": "rgb(235, 0, 0)"}, 400)
-          .delay(400)
-          .animate({"background-color": "black"}, 400);
-
-      }, 1600);
+      $("body").css({"animation-name":"doneFlash", "animation-duration":"1.6s", "animation-iteration-count":"infinite"})
 
     }
 
