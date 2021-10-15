@@ -15,6 +15,15 @@
 /*
  * Base structure
  */
+@keyframes doneFlash {
+
+  0% {background-color: black;}
+  25% {background-color: rgb(235, 0, 0);}
+  50% {background-color: rgb(235, 0, 0);}
+  75% {background-color: black;}
+  100% {background-color: black;}
+
+}
 
 body {
   text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
