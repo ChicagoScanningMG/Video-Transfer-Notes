@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Michael J. Gerrity | MichaelJGerrity.com">
+    <meta name="generator" content="Hugo 0.79.0">
+    <title>AV Logger</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
+
+
+
+    <!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/masking-input.js" data-autoinit="true"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5.0.4/dark.min.css">
+<script src="JQColor.js"></script>
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, .75) url("https://i.imgur.com/zlY3REY.png") no-repeat center center; //include your spinner url
+        z-index: 10000
+      }
+
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="stylesheet.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+  </head>
+
+  <body class="text-white">
+
+    <div id="video-notes">
+
+        <div class="row">
+          <!-- <input type="timecode" id="stop-time" name="stop-time" class="col-9 resetAble" value="" placeholder="XX:XX:XX" autocomplete="off"> -->
+          <input type="button" id="stop-timer-button" value="Stop Timer" class="col-4">
+          <div class="col-9" id="stop-timer-div" style="display: none">
+          <h1 class="" id="stop-timer">10:00</h1><input type="button" class="timer-button fa fa-input" id="stop-button" value="&#xf28d;"><input type="button" class="timer-button fa fa-input" id="restart-button" value="&#xf1da;">
+        </div>
+
+    </div>
+
+    <span id="loader"></span>
+
+    <script src="script.js"></script>
+  </body>
+
+<script>
+
+  function timecodeMask() {
+    var num = $(this).val().replace(/\D/g,'');
+    $(this).val(num.substring(0,2) + ':' + num.substring(2,4) + ':' + num.substring(4,6));
+    if ($("#stop-time").val() == "::"){
+
+      $("#stop-time").val("");
+
+    }
+  }
+  $('[type="timecode"]').keyup(timecodeMask);
+
+</script>
+
+</html>
