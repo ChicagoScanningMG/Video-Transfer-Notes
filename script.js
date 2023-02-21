@@ -1,6 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbwOfIsJmBwuIP4LF633tpTgrR7GJD9M8b4NN0EZ7fmSueHKXXcr0gMgeCnNzW7n7GFv/exec';
-// const scriptURLC ='turd';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbwq6MUkaz551Y9Tu3q_5-q3HZR9hybTmZk_rpVfBoRZ-l6JOgf53HB7Ic3DwH2g8JLx/exec';
 const serverlessForm = document.forms['serverless-form'];
 var timerOn = false;
 var bgAnimate = false;
@@ -92,19 +91,6 @@ function runTimer(){
       timerOn = false;
       bgAnimate = true;
 
-      // var flashRed = setInterval(function(){
-      //
-      //   if (bgAnimate == false){
-      //     clearInterval(flashRed);
-      //     return;
-      //   }
-      //
-      //   $("body").animate({"background-color": "rgb(235, 0, 0)"}, 400)
-      //     .delay(400)
-      //     .animate({"background-color": "black"}, 400);
-      //
-      // }, 1600);
-
       $("body").css({"animation-name":"doneFlash", "animation-duration":"1.6s", "animation-iteration-count":"infinite"})
 
     }
@@ -136,7 +122,9 @@ $("#order-id").change(function(){
 
 })
 
+//Get Order Notes
 $('#order-id').change(function(){
+  console.log("Getting Order Notes");
   $('#order-notes').html("Retrieving Order Notes");
   $('#last-name').val("");
   $('#last-name').attr("placeholder", "Retrieving Customer Name");
@@ -148,18 +136,36 @@ $('#tape-num').change(function(){
   getOrderDetails($('#order-id').val(), $('#tape-num').val());
 })
 
+//-----------------------------------------------------------------
+//~~~~~~~~~~~~~~~~~~~~~~~~~Form Submission~~~~~~~~~~~~~~~~~~~~~~~~~
+//-----------------------------------------------------------------
 
+var orderID;
+var lastName;
+var tapeNum;
+var initials;
+var qcNotes;
+var needsReview;
+var notesOnly;
+var billingNotes;
 
+function getFormDetails(){
 
+  orderID = $('#order-id').val();
+  lastName = $('#last-name').val();
+  tapeNum = $('#tape-num').val();
+  initials = $('#initials').val();
+  qcNotes = $('#qc-notes').val();
+  needsReview = $('#needs-review').is(":checked");
+  notesOnly = $('#notes-only').is(":checked");
+  billingNotes = $('#billing-notes').val();
+
+}
 
 serverlessForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    var orderID = $('#order-id').val();
-    var lastName = $('#last-name').val();
-    var tapeNum = $('#tape-num').val();
-    var qcNotes = $('#qc-notes').val();
-    var billingNotes = $('#billing-notes').val();
+    getFormDetails();
 
     Swal.fire({
       title: 'Ready to Log Tape <br/>' + orderID + '_' + lastName + '_ ' + tapeNum + '?',
@@ -182,10 +188,20 @@ function logTape(e){
 
   spinner.show();
 
-  var orderID = $('#order-id').val();
-  var tapeNum = $('#tape-num').val();
-  var qcNotes = $('#qc-notes').val();
-  var billingNotes = $('#billing-notes').val();
+  getFormDetails();
+
+  var params = new URLSearchParams({
+    orderID: orderID,
+    lastName: lastName,
+    tapeNum: tapeNum,
+    initials: initials,
+    qcNotes: qcNotes,
+    needsReview: needsReview,
+    notesOnly: notesOnly,
+    billingNotes: billingNotes,
+    orderCategory: "video",
+    getOrderDetails: false
+  });
 
   console.log(orderID);
 
@@ -193,7 +209,7 @@ function logTape(e){
 
   fetch(scriptURLC, {
           method: 'POST',
-          body: new FormData(serverlessForm)
+          body: params
       })
       .then(res => {
 
@@ -264,7 +280,7 @@ function logTape(e){
 
 function getOrderDetails(orderID, tapeNum){
 
-  const params = new URLSearchParams({
+  var params = new URLSearchParams({
     orderID: orderID,
     tapeNum: tapeNum,
     getOrderDetails: true
