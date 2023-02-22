@@ -1,5 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbwFKUi-VRaGqRA7fbmcecVuSvdN-NzsFfiI8pc2oCriSJDkrmWok2P_dj4rdS5i0ELz/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycby1lcGAlChnpZsnnu1wqSQqyAPsVxTFLIEfoUZGDbrhRWAZGIeThItvJBphq_-P1ovB/exec';
 const serverlessForm = document.forms['serverless-form'];
 var timerOn = false;
 var bgAnimate = false;
@@ -7,6 +7,15 @@ var oldOrderID = 0000;
 var currentOrderID = 0000;
 var oldTech = "";
 var currentTech = "";
+
+var orderID;
+var lastName;
+var tapeNum;
+var initials;
+var qcNotes;
+var needsReview;
+var notesOnly;
+var billingNotes;
 
 $("#reset-btn").click(function(){
   $("#contactForm").trigger("reset");
@@ -161,14 +170,7 @@ $('#initials').change(function(){
 //~~~~~~~~~~~~~~~~~~~~~~~~~Form Submission~~~~~~~~~~~~~~~~~~~~~~~~~
 //-----------------------------------------------------------------
 
-var orderID;
-var lastName;
-var tapeNum;
-var initials;
-var qcNotes;
-var needsReview;
-var notesOnly;
-var billingNotes;
+
 
 function getFormDetails(){
 
@@ -177,8 +179,8 @@ function getFormDetails(){
   tapeNum = $('#tape-num').val();
   initials = $('#initials').val();
   qcNotes = $('#qc-notes').val();
-  needsReview = $('#needs-review').val();
-  notesOnly = $('#notes-only').val();
+  needsReview = $('#needs-review').is(":checked");
+  notesOnly = $('#notes-only').is(":checked");
   billingNotes = $('#billing-notes').val();
 
   if (currentOrderID != oldOrderID || currentTech != oldTech){
@@ -199,6 +201,8 @@ serverlessForm.addEventListener('submit', e => {
     e.preventDefault();
 
     getFormDetails();
+
+    console.log("Tape Number: " + tapeNum);
 
     Swal.fire({
       title: 'Ready to Log Tape <br/>' + orderID + '_' + lastName + '_ ' + tapeNum + '?',
@@ -236,7 +240,7 @@ function logTape(e){
     getOrderDetails: false
   });
 
-  console.log(orderID);
+  console.log("Notes Only: " + notesOnly);
 
   var tapeProgress = "";
 
