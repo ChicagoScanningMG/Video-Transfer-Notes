@@ -156,8 +156,8 @@ function getFormDetails(){
   tapeNum = $('#tape-num').val();
   initials = $('#initials').val();
   qcNotes = $('#qc-notes').val();
-  needsReview = $('#needs-review').is(":checked");
-  notesOnly = $('#notes-only').is(":checked");
+  needsReview = $('#needs-review').val();
+  notesOnly = $('#notes-only').val();
   billingNotes = $('#billing-notes').val();
 
 }
