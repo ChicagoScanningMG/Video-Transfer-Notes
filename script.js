@@ -1,8 +1,12 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbwq6MUkaz551Y9Tu3q_5-q3HZR9hybTmZk_rpVfBoRZ-l6JOgf53HB7Ic3DwH2g8JLx/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbwFKUi-VRaGqRA7fbmcecVuSvdN-NzsFfiI8pc2oCriSJDkrmWok2P_dj4rdS5i0ELz/exec';
 const serverlessForm = document.forms['serverless-form'];
 var timerOn = false;
 var bgAnimate = false;
+var oldOrderID = 0000;
+var currentOrderID = 0000;
+var oldTech = "";
+var currentTech = "";
 
 $("#reset-btn").click(function(){
   $("#contactForm").trigger("reset");
@@ -104,7 +108,13 @@ function runTimer(){
 
 }
 
-$("#order-id").change(function(){
+// $("#order-id").change(function(){
+//
+//
+// })
+
+//Get Order Notes
+$('#order-id').change(function(){
 
   var orderID = $('#order-id').val();
   var tapeName = orderID.split("_");
@@ -118,22 +128,33 @@ $("#order-id").change(function(){
 
   }
 
+  currentOrderID = $('#order-id').val();
+  currentTech = $('#initials').val();
 
-
-})
-
-//Get Order Notes
-$('#order-id').change(function(){
   console.log("Getting Order Notes");
   $('#order-notes').html("Retrieving Order Notes");
   $('#last-name').val("");
   $('#last-name').attr("placeholder", "Retrieving Customer Name");
-  getOrderDetails($('#order-id').val(), $('#tape-num').val());
+  getOrderDetails(currentOrderID, $('#tape-num').val(), currentTech);
 })
 
 $('#tape-num').change(function(){
+
+  currentOrderID = $('#order-id').val();
+  currentTech = $('#initials').val();
+
   $('#existing-qc-notes').html("Retrieving Tape Notes");
-  getOrderDetails($('#order-id').val(), $('#tape-num').val());
+  getOrderDetails(currentOrderID, $('#tape-num').val(), currentTech);
+})
+
+//If the initials have been updated, update order Status on Order Tracking.
+$('#initials').change(function(){
+
+  currentOrderID = $('#order-id').val();
+  currentTech = $('#initials').val();
+
+  getOrderDetails(currentOrderID, $('#tape-num').val(), currentTech);
+
 })
 
 //-----------------------------------------------------------------
@@ -159,6 +180,18 @@ function getFormDetails(){
   needsReview = $('#needs-review').val();
   notesOnly = $('#notes-only').val();
   billingNotes = $('#billing-notes').val();
+
+  if (currentOrderID != oldOrderID || currentTech != oldTech){
+
+    checkOrderStatus = true;
+    oldOrderID = currentOrderID;
+    oldTech = currentTech;
+
+  } else {
+
+    checkOrderStatus = false;
+
+  }
 
 }
 
@@ -278,11 +311,15 @@ function logTape(e){
       })
 }
 
-function getOrderDetails(orderID, tapeNum){
+function getOrderDetails(orderID, tapeNum, initials){
+
+  getFormDetails();
 
   var params = new URLSearchParams({
     orderID: orderID,
     tapeNum: tapeNum,
+    initials: initials,
+    checkOrderStatus: checkOrderStatus,
     getOrderDetails: true
   });
 
