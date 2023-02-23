@@ -1,5 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbxUy9KpAU6pgwhiMny9RKt_YDFBpDuOxXu6o89DX8ZqUZD2PvE1isw7OWVG7gLGkig7/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbwupao1b1HXH_BnO-Rl1GHYvnSIn09dxs-xBamcI1UHvuyU-z5OyEYouGbaPjjr-oyX/exec';
 const serverlessForm = document.forms['serverless-form'];
 var timerOn = false;
 var bgAnimate = false;
