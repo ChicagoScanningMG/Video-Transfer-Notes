@@ -1,5 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbwupao1b1HXH_BnO-Rl1GHYvnSIn09dxs-xBamcI1UHvuyU-z5OyEYouGbaPjjr-oyX/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbxB8ZYOIRQoGRcB8nm4rTXR6kBaP2JM9m6hrp1qgVEfdFOoDc20CKC-iqsihtA6YD_B/exec';
 const serverlessForm = document.forms['serverless-form'];
 var timerOn = false;
 var bgAnimate = false;
@@ -154,6 +154,7 @@ $('#tape-num').change(function(){
 
   $('#existing-qc-notes').html("Retrieving Tape Notes");
   getOrderDetails(currentOrderID, $('#tape-num').val(), currentTech);
+
 })
 
 //If the initials have been updated, update order Status on Order Tracking.
@@ -350,7 +351,7 @@ function getOrderDetails(orderID, tapeNum, initials){
       }
 
       $("#existing-qc-notes").html(formattedNotes);
-      $("#order-notes").html(data.orderNotes);
+      $("#order-notes").html('<a href="' + data.orderURL + '" target="_blank">Link to File Log</a>' + '</br>' + data.orderNotes);
       $("#last-name").val(data.customerName);
 
       copyToClipboard($('#order-id').val() + "_" + $('#last-name').val() + "_" + ('000' + $('#tape-num').val()).slice(-3))
