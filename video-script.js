@@ -1,5 +1,5 @@
 var spinner = $('#loader');
-const scriptURLC ='https://script.google.com/macros/s/AKfycbxB8ZYOIRQoGRcB8nm4rTXR6kBaP2JM9m6hrp1qgVEfdFOoDc20CKC-iqsihtA6YD_B/exec';
+const scriptURLC ='https://script.google.com/macros/s/AKfycbwChFoeZe8vagm2tXzhIfFssGjYbItkuaFE-BHiS87MSJItse8kHuxU53z9oUNsPNGR/exec';
 const serverlessForm = document.forms['serverless-form'];
 var timerOn = false;
 var bgAnimate = false;
@@ -41,8 +41,15 @@ $("#restart-button").click(function(){
 })
 
 $("#stop-button").click(function(){
-  console.log("stop button Clicked");
+  console.log("Stop button Clicked");
   resetTimer();
+
+})
+
+$("#progress-btn").click(function(){
+
+  console.log("Order Progress Button Clicked");
+  getOrderProgress(orderID);
 
 })
 
@@ -117,16 +124,13 @@ function runTimer(){
 
 }
 
-// $("#order-id").change(function(){
-//
-//
-// })
 
 //Get Order Notes
 $('#order-id').change(function(){
 
   var orderID = $('#order-id').val();
   var tapeName = orderID.split("_");
+  $("#logged-text").html("");
 
   if (tapeName.length > 1){
 
@@ -151,6 +155,7 @@ $('#tape-num').change(function(){
 
   currentOrderID = $('#order-id').val();
   currentTech = $('#initials').val();
+  $("#logged-text").html("");
 
   $('#existing-qc-notes').html("Retrieving Tape Notes");
   getOrderDetails(currentOrderID, $('#tape-num').val(), currentTech);
@@ -170,8 +175,6 @@ $('#initials').change(function(){
 //-----------------------------------------------------------------
 //~~~~~~~~~~~~~~~~~~~~~~~~~Form Submission~~~~~~~~~~~~~~~~~~~~~~~~~
 //-----------------------------------------------------------------
-
-
 
 function getFormDetails(){
 
@@ -205,7 +208,8 @@ serverlessForm.addEventListener('submit', e => {
 
     console.log("Tape Number: " + tapeNum);
 
-    Swal.fire({
+    var standardMessage = {
+
       title: 'Ready to Log Tape <br/>' + orderID + '_' + lastName + '_ ' + tapeNum + '?',
       text: 'Has the file been reviewed?  Ready to Log Tape?',
       icon: 'question',
@@ -213,7 +217,46 @@ serverlessForm.addEventListener('submit', e => {
       confirmButtonText: 'Log Tape',
       returnFocus: false,
       focusCancel: true
-    }).then((result) => {
+
+    };
+
+    var loggedMessage = {
+
+      title: 'TAPE IS ALREADY LOGGED! <br/>' + orderID + '_' + lastName + '_ ' + tapeNum,
+      text: 'This tape has already been logged! Please confirm the tape information is correct and select "Log Notes Only" to log the tape.',
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: false,
+      confirmButtonText: 'Log Tape',
+      returnFocus: false,
+      focusCancel: true
+
+    };
+
+    var message = {};
+
+    if ($("#logged-text").html() != ""){
+
+      if (!$("#notes-only").prop('checked')){
+
+        message = loggedMessage;
+
+      } else {
+
+        loggedMessage.showConfirmButton = true;
+        loggedMessage.text = "Tape has already been logged! Confirm you would like to log notes only!";
+
+        message = loggedMessage;
+
+      }
+
+    } else {
+
+      message = standardMessage;
+
+    }
+
+    Swal.fire(message).then((result) => {
       if (result.isConfirmed) {
         // Swal.fire('Saved!', '', 'success')
         logTape(e)
@@ -238,7 +281,7 @@ function logTape(e){
     notesOnly: notesOnly,
     billingNotes: billingNotes,
     orderCategory: "video",
-    getOrderDetails: false
+    requestType: "logTape"
   });
 
   console.log("Notes Only: " + notesOnly);
@@ -280,6 +323,7 @@ function logTape(e){
                       $('#notes-only').prop('checked', false);
                       $('#existing-qc-notes').html("");
                       $('#tape-num').focus();
+                      $('#logged-text').html("");
                     }
                   });
                 } else { //There was a logging error
@@ -302,8 +346,6 @@ function logTape(e){
 
           });
 
-
-
           document.getElementById('submitForm').classList.remove('loading');
 
       })
@@ -325,7 +367,7 @@ function getOrderDetails(orderID, tapeNum, initials){
     tapeNum: tapeNum,
     initials: initials,
     checkOrderStatus: checkOrderStatus,
-    getOrderDetails: true
+    requestType: "getOrderDetails"
   });
 
     fetch(scriptURLC, {
@@ -366,9 +408,93 @@ function getOrderDetails(orderID, tapeNum, initials){
         $('#qc-notes').focus();
       }
 
+
+      try {
+        // Your asynchronous code here
+        if (data.logged === true) {
+          $("#logged-text").html("(Tape Already logged)");
+        }
+      } catch {
+        console.log("Error occurred: " + error.message);
+        console.log("No logging information Present");
+      }
+
       console.log(data)
     });
 
+}
+
+function getOrderProgress(orderID){
+
+  spinner.show();
+
+  getFormDetails();
+
+  var params = new URLSearchParams({
+    orderID: orderID,
+    requestType: "getOrderProgress"
+  });
+
+  console.log("Getting Order Progress");
+
+  var tapeProgress = "";
+
+  fetch(scriptURLC, {
+          method: 'POST',
+          body: params
+      })
+      .then(res => {
+
+          console.log(res);
+          spinner.hide();
+
+          res.json().then(function(data) {
+            console.log(data);
+            tapeProgress = data.tapeProgress;
+
+            if (res['status'] == 200) {
+
+                if(data.errorTitle == ""){
+                  Swal.fire({
+                    title: "Current Order Progress",
+                    html: data.tapeProgress,
+                    icon: "success",
+                    returnFocus: false
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+
+                    }
+                  });
+                } else { //There was a logging error
+
+                  Swal.fire({
+                    title: data.errorTitle,
+                    html: data.errorText,
+                    icon: "error",
+                    returnFocus: false
+                  });
+
+                }
+
+                return true;
+
+            } else {
+                Swal.fire("Something went wrong!", "Please Try Again or Contact Admin", "error");
+
+            }
+
+          });
+
+          document.getElementById('submitForm').classList.remove('loading');
+
+      })
+      .catch(error => {
+          spinner.hide();
+          // document.getElementById('submitForm').classList.remove('loading');
+          Swal.fire("Something went wrong!", "Review Footage Log and/or contact Admin", "error");
+          // todo enable submit button
+
+      })
 }
 
 function copyToClipboard(value) {
