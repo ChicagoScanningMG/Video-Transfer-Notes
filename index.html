@@ -117,11 +117,12 @@
 
           <label for="notes-only" class="col-3">Log Notes Only:</label>
           <input type="checkbox" id="notes-only" name="notes-only" class="col-1 resetAble move-left" autocomplete="off">
+          <label for="notes-only" class="col-3 resetable" id="logged-text" style="width:auto"></label>
         </div>
 
         <div class="row">
           <label for="billing-notes" class="col-3">Notes:</label>
-          <select name="billing-notes" id="billing-notes" class="video-notes-field masked col-9 resetAble" style="width: auto">
+          <select name="billing-notes" id="billing-notes" class="video-notes-field masked col-9 resetAble pulled-detail" style="width: auto">
             <option value="" selected>None</option>
             <option value="Blank Tape">Blank</option>
             <option value="Copyright">Copyright</option>
@@ -134,6 +135,7 @@
         <div class="row">
           <span class="col-3"></span>
           <input type="submit" value="Submit" class="col-2">
+          <input style="margin-left:5px; width:auto" type="button" id="progress-btn" value="Order Progress" class="col-2">
         </div>
 
         <div class="row">
@@ -149,7 +151,7 @@
       </form>
 
       <div class="row" id="version-num">
-        <p>v2.3</p>
+        <p>v2.3.1</p>
       </div>
 
     </div>
