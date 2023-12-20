@@ -20,6 +20,7 @@ var billingNotes;
 $("#reset-btn").click(function(){
   $("#contactForm").trigger("reset");
   $(".pulled-detail").html("");
+  $("#billing-notes").val("").change();
   resetTimer();
 });
 
